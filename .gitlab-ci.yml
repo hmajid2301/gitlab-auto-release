@@ -35,7 +35,7 @@ publish_package:staging:
   script:
     - pip install tox
     - make pypi-check
-    - make pypi-upload -- --repository-url https://test.pypi.org/legacy/
+    - make pypi-upload OPTIONS="-- --repository-url https://test.pypi.org/legacy/"
 
 publish-package:production:
   stage: publish
