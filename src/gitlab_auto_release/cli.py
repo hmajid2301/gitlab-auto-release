@@ -46,7 +46,9 @@ import gitlab
     envvar="CHANGELOG",
     help="Path to file to changelog file, will overwrite description with tag matching changelog. Must be in keepachangelog format.",
 )
-@click.option("--description", envvar="DESCRIPTION", help="Path to file to use as the description for the MR.")
+@click.option(
+    "--description", default="", envvar="DESCRIPTION", help="Path to file to use as the description for the MR."
+)
 @click.option("--asset", multiple=True, help="An asset to include in the release, i.e. name=link_to_asset.")
 @click.option(
     "--link-artifacts",

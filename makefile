@@ -9,9 +9,14 @@ lint:
 	@tox -e lint
 
 
+.PHONY: code-formatter
+code-formatter:
+	@tox -e code-formatter
+
+
 .PHONY: code-formatter-check
 code-formatter-check:
-	@tox -e code-formatter-check
+	@tox -e code-formatter -- --check
 
 
 # prompt_example> make bumpversion OPTIONS="-- --allow-dirty patch"
