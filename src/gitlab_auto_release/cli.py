@@ -80,7 +80,7 @@ def cli(private_token, project_id, project_url, tag_name, release_name, changelo
 
     if changelog:
         try:
-            description += get_changelog(changelog, tag_name)
+            description += f"\n\n {get_changelog(changelog, tag_name)}"
         except (IndexError, AttributeError):
             print(f"Invalid tag name doesn't contain a valid semantic version {tag_name}.")
             sys.exit(1)
