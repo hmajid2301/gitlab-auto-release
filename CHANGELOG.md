@@ -6,11 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ##[Unreleased]
+## [0.2.1] - 2019-07-29
+### Changed
+- Changed any reference to hmajid2301/gitlab-auto-release to gitlab-automation-toolkit/gitlab-auto-release.
 
 ## [0.2.0] - 2019-07-28
 ### Added
 - Two new lines after description when adding changelog.
-- 
+
 ### Changed
 - Only one tox target for code formatters, makefile passes different parameters.
 

@@ -6,7 +6,7 @@ The script will look for the latest.
 Example:
     ::
         $ pip install -e .
-        $ gitlab_auto_release --private-token xxxx --project-id 8593636 --project-url https://gitlab.com/hmajid2301/stegappasaurus \
+        $ gitlab_auto_release --private-token xxxx --project-id 8593636 --project-url https://gitlab.com/stegappasaurus/stegappasaurus-app \
         --tag-name v0.1.0 --release-name v0.1.0 --link-artifacts false --changelog CHANGELOG.md
 
 

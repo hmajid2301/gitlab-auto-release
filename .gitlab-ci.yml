@@ -1,7 +1,7 @@
 image: python:3.7
 variables:
   CI_REGISTRY: "registry.gitlab.com"
-  PROJECT_REGISTRY: "$CI_REGISTRY/hmajid2301/gitlab-auto-release"
+  PROJECT_REGISTRY: "$CI_REGISTRY/gitlab-automation-toolkit/gitlab-auto-release"
   DOCKER_DRIVER: overlay2
 
 services:

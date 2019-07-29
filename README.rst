@@ -1,5 +1,5 @@
-.. image:: https://gitlab.com/hmajid2301/gitlab-auto-release/badges/master/pipeline.svg
-   :target: https://gitlab.com/hmajid2301/gitlab-auto-release
+.. image:: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/badges/master/pipeline.svg
+   :target: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release
    :alt: Pipeline Status
 
 .. image:: https://img.shields.io/pypi/l/gitlab-auto-release.svg
@@ -16,7 +16,7 @@
 
 GitLab Auto Release
 ===================
-An example CI using this can be found `here <https://gitlab.com/hmajid2301/stegappasaurus/blob/master/.gitlab-ci.yml>`_. This package was intended to be used by GitLab CI hence using environments provided by the GitLab CI. You can however use it as a CLI tool if you would like.
+An example CI using this can be found `here <https://gitlab.com/stegappasaurus/stegappasaurus-app/blob/master/.gitlab-ci.yml>`_. This package was intended to be used by GitLab CI hence using environments provided by the GitLab CI. You can however use it as a CLI tool if you would like.
 
 Usage
 -----
@@ -54,7 +54,7 @@ With the scope ``api``, so it can create the release for you.
 .. code-block:: bash
 
   gitlab_auto_release --private-token xxxx --project-id 8593636 \
-    --project-url https://gitlab.com/hmajid2301/stegappasaurus \
+    --project-url https://gitlab.com/stegappasaurus/stegappasaurus-app \
     --tag-name v0.1.0 --release-name v0.1.0 --link-artifacts false \
     --changelog CHANGELOG.md
 
@@ -63,7 +63,7 @@ GitLab CI
 
 Set a secret variable in your GitLab project with your private token. Name it ``GITLAB_PRIVATE_TOKEN`` (``CI/CD > Environment Variables``).
 This is necessary to create the release on your behalf.
-More information `click here <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_. An example CI using this can be `found here <https://gitlab.com/hmajid2301/stegappasaurus/blob/master/.gitlab-ci.yml>`_.
+More information `click here <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_. An example CI using this can be `found here <https://gitlab.com/stegappasaurus/stegappasaurus-app/blob/master/.gitlab-ci.yml>`_.
 
 Add the following to your ``.gitlab-ci.yml`` file:
 
@@ -73,7 +73,7 @@ Add the following to your ``.gitlab-ci.yml`` file:
     - post
 
   publish:release:
-    image: registry.gitlab.com/hmajid2301/gitlab-auto-release
+    image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-release
     stage: post
     only:
       - /^release/.*$/
@@ -96,4 +96,4 @@ You can set extra variables like so.
 Changelog
 =========
 
-You can find the `changelog here <https://gitlab.com/hmajid2301/gitlab-auto-mr/blob/master/CHANGELOG.md>`_.
+You can find the `changelog here <https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-mr/blob/master/CHANGELOG.md>`_.
