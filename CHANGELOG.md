@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ##[Unreleased]
+## [1.0.0] - 2019-07-30
+### Changed
+- Removed unnecessary env variables from cli, some args should be provided as cli inputs. Such as description, changelog and link-artifacts.
+
 ## [0.2.1] - 2019-07-29
 ### Changed
 - Changed any reference to hmajid2301/gitlab-auto-release to gitlab-automation-toolkit/gitlab-auto-release.

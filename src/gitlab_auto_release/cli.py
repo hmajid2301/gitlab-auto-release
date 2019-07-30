@@ -43,20 +43,12 @@ import gitlab
 @click.option("--release-name", envvar="CI_COMMIT_TAG", required=True, help="The name of the release.")
 @click.option(
     "--changelog",
-    envvar="CHANGELOG",
+    "-c",
     help="Path to file to changelog file, will overwrite description with tag matching changelog. Must be in keepachangelog format.",
 )
-@click.option(
-    "--description", default="", envvar="DESCRIPTION", help="Path to file to use as the description for the MR."
-)
-@click.option("--asset", multiple=True, help="An asset to include in the release, i.e. name=link_to_asset.")
-@click.option(
-    "--link-artifacts",
-    envvar="LINK_ARTIFACTS",
-    type=bool,
-    default=True,
-    help="If set to true will link artifacts from current job.",
-)
+@click.option("--description", "-d", type=str, help="Path to file to use as the description for the MR.")
+@click.option("--asset", "-a", multiple=True, help="An asset to include in the release, i.e. name=link_to_asset.")
+@click.option("--link-artifacts", is_flag=True, help="If set to true will link artifacts from current job.")
 def cli(private_token, project_id, project_url, tag_name, release_name, changelog, description, asset, link_artifacts):
     """Gitlab Auto Release Tool."""
     gitlab_url = re.search("^https?://[^/]+", project_url).group(0)

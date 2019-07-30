@@ -78,20 +78,10 @@ Add the following to your ``.gitlab-ci.yml`` file:
     only:
       - /^release/.*$/
     before_script: []
-    script:
-      - gitlab_auto_release
-
-You can set extra variables like so.
-
-.. code-block:: yaml
-
     variables:
-      CHANGELOG: CHANGELOG.md
-      DESCRIPTION: "This is my release"
-
-- CHANGELOG: Changelog file to use in the description for the release.
-- DESCRIPTION: The description to include in the release. 
-- LINK_ARTIFACTS: If set to True (default to True) will include artifacts from the current CI job.
+      GIT_STRATEGY: none # We don't need to clone the project for this job
+    script:
+      - gitlab_auto_release --changelog CHANGELOG.md --link-assets
 
 Changelog
 =========
