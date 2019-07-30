@@ -27,29 +27,31 @@ With the scope ``api``, so it can create the release for you.
 
 .. code-block:: bash
 
-    pip install gitlab-auto-mr
-    gitlab_auto_release --help
+  pip install gitlab-auto-mr
+  gitlab_auto_release --help
 
-    Usage: gitlab_auto_release [OPTIONS]
+  Usage: gitlab_auto_release [OPTIONS]
+
+    Gitlab Auto Release Tool.
 
   Options:
-    --private-token TEXT   Private GITLAB token, used to authenticate when
-                          calling the MR API.  [required]
-    --project-url TEXT     The project URL on GitLab to create the MR for.
-                          [required]
-    --project-id INTEGER   The project ID on GitLab to create the MR for.
-                          [required]
-    --tag-name TEXT        The tag the release should be created from.
-                          [required]
-    --release-name TEXT    The name of the release.  [required]
-    --changelog TEXT       Path to file to changelog file, will overwrite
-                          description with tag matching changelog. Must be in
-                          keepachangelog format.
-    --description TEXT     Path to file to use as the description for the MR.
-    --asset TEXT           An asset to include in the release, i.e.
-                          name=link_to_asset.
-    --link-artifacts TEXT  If set to true will link artifacts from current job.
-    --help                 Show this message and exit.
+    --private-token TEXT    Private GITLAB token, used to authenticate when
+                            calling the MR API.  [required]
+    --project-url TEXT      The project URL on GitLab to create the MR for.
+                            [required]
+    --project-id INTEGER    The project ID on GitLab to create the MR for.
+                            [required]
+    --tag-name TEXT         The tag the release should be created from.
+                            [required]
+    --release-name TEXT     The name of the release.  [required]
+    -c, --changelog TEXT    Path to file to changelog file, will overwrite
+                            description with tag matching changelog. Must be in
+                            keepachangelog format.
+    -d, --description TEXT  Path to file to use as the description for the MR.
+    -a, --asset TEXT        An asset to include in the release, i.e.
+                            name=link_to_asset.
+    --link-artifacts        If set to true will link artifacts from current job.
+    --help                  Show this message and exit.
 
 .. code-block:: bash
 
