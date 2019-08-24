@@ -167,7 +167,7 @@ def get_changelog(changelog, tag_name):
             position_start = content.find(semver_changelog)
             if position_start:
                 position_end = content[position_start + 2 :].find("## [")
-                position_end = (position_end + position_start + 2) if position_end else -1
+                position_end = (position_end + position_start + 2) if position_end != -1 else -1
                 description = content[position_start:position_end]
 
     return description
