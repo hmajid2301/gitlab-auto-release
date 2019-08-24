@@ -6,8 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ##[Unreleased]
+## [1.0.3] - 2019-08-24
 ### Fixed
-- Mistake in README related to issue #1, calling it link-assets instead of link-artifacts
+- Changelog part was still broken, need to look for "## [" instead of "##".
+- Mistake in README related to issue #1, calling it link-assets instead of link-artifacts.
 
 ## [1.0.2] - 2019-08-24
 ### Fixed
@@ -37,7 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - `code-formatter-check` from tox (target). Use `{posargs}` to pass `--check` if we want to check code is compliant with black.
-
 
 ## [0.1.0] - 2019-07-24
 ### Added
