@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ##[Unreleased]
 
+## [1.0.2] - 2019-08-24
+### Fixed
+- When changelog including all of the changelog not just the part we want.
+
 ## [1.0.1] - 2019-07-30
 ### Changed
 - README to include new short args i.e. -d instead of description.
