@@ -80,10 +80,8 @@ Add the following to your ``.gitlab-ci.yml`` file:
     only:
       - /^release/.*$/
     before_script: []
-    variables:
-      GIT_STRATEGY: none # We don't need to clone the project for this job
     script:
-      - gitlab_auto_release --changelog CHANGELOG.md --link-assets
+      - gitlab_auto_release --changelog CHANGELOG.md --link-artifacts
 
 Changelog
 =========
