@@ -50,15 +50,15 @@ With the scope ``api``, so it can create the release for you.
     -d, --description TEXT  Path to file to use as the description for the MR.
     -a, --asset TEXT        An asset to include in the release, i.e.
                             name=link_to_asset.
-    --link-artifacts        If set to true will link artifacts from current job.
+    --artifacts TEXT        Will include artifacts from jobs specified in
+                            current pipeline. Use job name.
     --help                  Show this message and exit.
 
 .. code-block:: bash
 
   gitlab_auto_release --private-token xxxx --project-id 8593636 \
     --project-url https://gitlab.com/stegappasaurus/stegappasaurus-app \
-    --tag-name v0.1.0 --release-name v0.1.0 --link-artifacts false \
-    --changelog CHANGELOG.md
+    --tag-name v0.1.0 --release-name v0.1.0 --changelog CHANGELOG.md
 
 GitLab CI
 *********
@@ -81,7 +81,7 @@ Add the following to your ``.gitlab-ci.yml`` file:
       - /^release/.*$/
     before_script: []
     script:
-      - gitlab_auto_release --changelog CHANGELOG.md --link-artifacts
+      - gitlab_auto_release --changelog CHANGELOG.md --artifacts lint --artifacts report
 
 Changelog
 =========

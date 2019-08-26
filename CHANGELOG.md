@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ##[Unreleased]
 
+## [2.0.0] - 2019-08-26
+### Changed
+- To use artifacts not have to specify a job name.
+- Use pipeline API to get all jobs and their ids.
+
+### Fixed
+- Linking artifacts still linking to a 404 page.
+
 ## [1.1.0] - 2019-08-26
 ### Fixed
 - Linking assets incorrectly was trying to use GitLab API, now just using same link as in pipeline.

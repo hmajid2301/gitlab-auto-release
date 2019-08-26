@@ -48,8 +48,10 @@ import gitlab
 )
 @click.option("--description", "-d", type=str, help="Path to file to use as the description for the MR.")
 @click.option("--asset", "-a", multiple=True, help="An asset to include in the release, i.e. name=link_to_asset.")
-@click.option("--link-artifacts", "-l", is_flag=True, help="Will include artifacts from current job.")
-def cli(private_token, project_id, project_url, tag_name, release_name, changelog, description, asset, link_artifacts):
+@click.option(
+    "--artifacts", multiple=True, help="Will include artifacts from jobs specified in current pipeline. Use job name."
+)
+def cli(private_token, project_id, project_url, tag_name, release_name, changelog, description, asset, artifacts):
     """Gitlab Auto Release Tool."""
     gitlab_url = re.search("^https?://[^/]+", project_url).group(0)
     gl = gitlab.Gitlab(gitlab_url, private_token=private_token)
@@ -65,9 +67,16 @@ def cli(private_token, project_id, project_url, tag_name, release_name, changelo
         sys.exit(0)
 
     try:
-        assets = get_asset_links(project_url, project_id, asset, link_artifacts)
+        assets = get_asset_links(project, project_url, asset, artifacts)
     except IndexError:
         print(f"Invalid input format asset {asset}. Format should be `name=link_to_asset.")
+        sys.exit(1)
+
+    try:
+        artifacts = add_artifacts(project, project_url, artifacts)
+        assets.append(artifacts)
+    except IndexError:
+        print(f"One of the jobs specified is not found cannot link artifacts {artifacts}")
         sys.exit(1)
 
     if changelog:
@@ -112,15 +121,15 @@ def check_if_release_exists(project, tag_name):
     return exists
 
 
-def get_asset_links(project_url, project_id, asset, link_artifacts):
+def get_asset_links(asset):
     """Gets the asset in the correct format for the API request to create the release and include these extra assets
     with the release.
 
     Args:
-        gitlab_url (str): The base url to gitlab i.e. https://gitlab.com.
-        project_id (int): The project id on that gilab instance, where we will create release.
-        asset (tuple): A list of tuples in the format name=link. These will be included in the release.
-        link_artifacts (bool): If set to true we will link all artifacts in the current CI job with the release.
+        project (Gitlab.project): Gitlab project object, to make API requests.
+        project_url (str): The base url to gitlab i.e. https://gitlab.com.
+        asset (list): A list of tuples in the format name=link. These will be included in the release.
+        link_artifacts (list): A list Of jobs from current pipeline to link artifacts from.
 
     Returns
         list: (of dicts), which includes a name and url for the asset we will include in the realse.
@@ -131,10 +140,34 @@ def get_asset_links(project_url, project_id, asset, link_artifacts):
         asset_hash = {"name": item.split("=")[0], "url": item.split("=")[1]}
         assets.push(asset_hash)
 
-    if link_artifacts:
-        job_id = os.environ["CI_JOB_ID"]
-        artifact = {"name": "artifact", "url": f"{project_url}/-/jobs/{job_id}/artifacts/download"}
-        assets.append(artifact)
+    return assets
+
+
+def add_artifacts(project, project_url, artifacts):
+    """Gets the artifacts from the job name specified. Gets the current pipeline id,
+    then matches the jobs we are looking finds the job id.
+
+    Args:
+        project (Gitlab.project): Gitlab project object, to make API requests.
+        project_url (str): The base url to gitlab i.e. https://gitlab.com.
+        link_artifacts (list): A list Of jobs from current pipeline to link artifacts from.
+
+    Returns
+        list: (of dicts), which includes a name and url for the asset we will include in the release.
+
+    """
+    assets = []
+
+    if artifacts:
+        pipeline_id = os.environ["CI_PIPELINE_ID"]
+        pipeline = project.pipelines.get(pipeline_id)
+        jobs = pipeline.jobs.list()
+
+        for artifacts in artifacts:
+            matched = [job for job in jobs if job.name == artifacts][0]
+            job_id = matched.job_id
+            artifact = {"name": f"Artifact: {artifacts}", "url": f"{project_url}/-/jobs/{job_id}/artifacts/download"}
+            assets.append(artifact)
 
     return assets
 
