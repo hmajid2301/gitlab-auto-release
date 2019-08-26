@@ -12,7 +12,6 @@ stages:
   - pre-publish
   - publish
 
-
 test:linter:
   stage: test
   script:

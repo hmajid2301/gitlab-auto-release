@@ -48,7 +48,7 @@ import gitlab
 )
 @click.option("--description", "-d", type=str, help="Path to file to use as the description for the MR.")
 @click.option("--asset", "-a", multiple=True, help="An asset to include in the release, i.e. name=link_to_asset.")
-@click.option("--link-artifacts", is_flag=True, help="If set to true will link artifacts from current job.")
+@click.option("--link-artifacts", "-l", is_flag=True, help="Will include artifacts from current job.")
 def cli(private_token, project_id, project_url, tag_name, release_name, changelog, description, asset, link_artifacts):
     """Gitlab Auto Release Tool."""
     gitlab_url = re.search("^https?://[^/]+", project_url).group(0)
@@ -65,7 +65,7 @@ def cli(private_token, project_id, project_url, tag_name, release_name, changelo
         sys.exit(0)
 
     try:
-        assets = get_asset_links(gitlab_url, project_id, asset, link_artifacts)
+        assets = get_asset_links(project_url, project_id, asset, link_artifacts)
     except IndexError:
         print(f"Invalid input format asset {asset}. Format should be `name=link_to_asset.")
         sys.exit(1)
@@ -112,7 +112,7 @@ def check_if_release_exists(project, tag_name):
     return exists
 
 
-def get_asset_links(gitlab_url, project_id, asset, link_artifacts):
+def get_asset_links(project_url, project_id, asset, link_artifacts):
     """Gets the asset in the correct format for the API request to create the release and include these extra assets
     with the release.
 
@@ -133,7 +133,7 @@ def get_asset_links(gitlab_url, project_id, asset, link_artifacts):
 
     if link_artifacts:
         job_id = os.environ["CI_JOB_ID"]
-        artifact = {"name": "artifact", "url": f"{gitlab_url}/api/v4/projects/{project_id}/jobs/{job_id}/artifacts"}
+        artifact = {"name": "artifact", "url": f"{project_url}/-/jobs/{job_id}/artifacts/download"}
         assets.append(artifact)
 
     return assets

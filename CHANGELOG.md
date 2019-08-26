@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ##[Unreleased]
 
+## [1.1.0] - 2019-08-26
+### Fixed
+- Linking assets incorrectly was trying to use GitLab API, now just using same link as in pipeline.
+
 ## [1.0.4] - 2019-08-24
 ### Fixed
 - Same changelog error, should be check if find returns -1 instead of 0.
