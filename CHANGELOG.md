@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ##[Unreleased]
 
+## [2.0.3] - 2019-08-27
+### Fixed
+- Error typo `artifacts` should've been `artifact` in for loop.
+
 ## [2.0.2] - 2019-08-27
 ### Changed
 - The function name from `get_asset_links` to `add_assets`.

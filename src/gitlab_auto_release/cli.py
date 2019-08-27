@@ -53,6 +53,7 @@ import gitlab
 )
 def cli(private_token, project_id, project_url, tag_name, release_name, changelog, description, asset, artifacts):
     """Gitlab Auto Release Tool."""
+    print(artifacts)
     gitlab_url = re.search("^https?://[^/]+", project_url).group(0)
     gl = gitlab.Gitlab(gitlab_url, private_token=private_token)
     try:
@@ -166,11 +167,14 @@ def add_artifacts(project, project_url, artifacts):
         pipeline = project.pipelines.get(pipeline_id)
         jobs = pipeline.jobs.list()
 
-        for artifacts in artifacts:
-            matched = [job for job in jobs if job.name == artifacts][0]
-            job_id = matched.job_id
-            artifact = {"name": f"Artifact: {artifacts}", "url": f"{project_url}/-/jobs/{job_id}/artifacts/download"}
-            assets.append(artifact)
+        for artifact in artifacts:
+            matched = [job for job in jobs if job.name == artifact][0]
+            job_id = matched.id
+            artifact_link = {
+                "name": f"Artifact: {artifacts}",
+                "url": f"{project_url}/-/jobs/{job_id}/artifacts/download",
+            }
+            assets.append(artifact_link)
 
     return assets
 
