@@ -67,7 +67,7 @@ def cli(private_token, project_id, project_url, tag_name, release_name, changelo
         sys.exit(0)
 
     try:
-        assets = get_asset_links(project, project_url, asset, artifacts)
+        assets = add_assets(asset)
     except IndexError:
         print(f"Invalid input format asset {asset}. Format should be `name=link_to_asset.")
         sys.exit(1)
@@ -121,7 +121,7 @@ def check_if_release_exists(project, tag_name):
     return exists
 
 
-def get_asset_links(asset):
+def add_assets(asset):
     """Gets the asset in the correct format for the API request to create the release and include these extra assets
     with the release.
 

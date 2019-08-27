@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ##[Unreleased]
 
+## [2.0.2] - 2019-08-27
+### Changed
+- The function name from `get_asset_links` to `add_assets`.
+
+### Fixed
+- `add_assets` only expecting one argument.
+
 ## [2.0.1] - 2019-08-27
 ### Fixed
 - Docstrings that were out of date with the code.
