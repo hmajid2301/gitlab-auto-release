@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ##[Unreleased]
 
+## [2.0.1] - 2019-08-27
+### Fixed
+- Docstrings that were out of date with the code.
+
 ## [2.0.0] - 2019-08-26
 ### Changed
 - To use artifacts not have to specify a job name.

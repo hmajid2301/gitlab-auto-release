@@ -7,7 +7,7 @@ Example:
     ::
         $ pip install -e .
         $ gitlab_auto_release --private-token xxxx --project-id 8593636 --project-url https://gitlab.com/stegappasaurus/stegappasaurus-app \
-        --tag-name v0.1.0 --release-name v0.1.0 --link-artifacts false --changelog CHANGELOG.md
+        --tag-name v0.1.0 --release-name v0.1.0 --changelog CHANGELOG.md
 
 
 .. _Google Python Style Guide:
@@ -126,13 +126,13 @@ def get_asset_links(asset):
     with the release.
 
     Args:
-        project (Gitlab.project): Gitlab project object, to make API requests.
-        project_url (str): The base url to gitlab i.e. https://gitlab.com.
         asset (list): A list of tuples in the format name=link. These will be included in the release.
-        link_artifacts (list): A list Of jobs from current pipeline to link artifacts from.
 
     Returns
         list: (of dicts), which includes a name and url for the asset we will include in the realse.
+
+    Raises
+        IndexError: When format is incorrect
 
     """
     assets = []
@@ -149,11 +149,14 @@ def add_artifacts(project, project_url, artifacts):
 
     Args:
         project (Gitlab.project): Gitlab project object, to make API requests.
-        project_url (str): The base url to gitlab i.e. https://gitlab.com.
-        link_artifacts (list): A list Of jobs from current pipeline to link artifacts from.
+        project_url (str): The url of the gitlab project.
+        artifacts (list): A list Of jobs from current pipeline to link artifacts from.
 
     Returns
         list: (of dicts), which includes a name and url for the asset we will include in the release.
+
+    Raises
+        IndexError: When the job doesn't exist in the pipeline jobs list.
 
     """
     assets = []
