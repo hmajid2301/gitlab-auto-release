@@ -53,7 +53,6 @@ import gitlab
 )
 def cli(private_token, project_id, project_url, tag_name, release_name, changelog, description, asset, artifacts):
     """Gitlab Auto Release Tool."""
-    print(artifacts)
     gitlab_url = re.search("^https?://[^/]+", project_url).group(0)
     gl = gitlab.Gitlab(gitlab_url, private_token=private_token)
     try:
@@ -75,7 +74,7 @@ def cli(private_token, project_id, project_url, tag_name, release_name, changelo
 
     try:
         artifacts = add_artifacts(project, project_url, artifacts)
-        assets.append(artifacts)
+        assets += artifacts
     except IndexError:
         print(f"One of the jobs specified is not found cannot link artifacts {artifacts}")
         sys.exit(1)
@@ -139,7 +138,7 @@ def add_assets(asset):
     assets = []
     for item in asset:
         asset_hash = {"name": item.split("=")[0], "url": item.split("=")[1]}
-        assets.push(asset_hash)
+        assets.append(asset_hash)
 
     return assets
 
@@ -171,7 +170,7 @@ def add_artifacts(project, project_url, artifacts):
             matched = [job for job in jobs if job.name == artifact][0]
             job_id = matched.id
             artifact_link = {
-                "name": f"Artifact: {artifacts}",
+                "name": f"Artifact: {artifact}",
                 "url": f"{project_url}/-/jobs/{job_id}/artifacts/download",
             }
             assets.append(artifact_link)

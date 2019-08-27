@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.3] - 2019-08-27
 ### Fixed
+- Appending to list incorrectly, creating two lists `[[]]`.
+
+## [2.0.3] - 2019-08-27
+### Fixed
 - Error typo `artifacts` should've been `artifact` in for loop.
 
 ## [2.0.2] - 2019-08-27
