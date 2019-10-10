@@ -27,7 +27,7 @@ With the scope ``api``, so it can create the release for you.
 
 .. code-block:: bash
 
-  pip install gitlab-auto-mr
+  pip install gitlab-auto-release
   gitlab_auto_release --help
 
   Usage: gitlab_auto_release [OPTIONS]
