@@ -1,9 +1,9 @@
-.. gitlab-auto-mr documentation master file, created by
+.. gitlab-auto-release documentation master file, created by
    sphinx-quickstart on Fri Apr 12 20:42:41 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to gitlab-auto-mr's documentation!
+Welcome to gitlab-auto-release's documentation!
 ==========================================
 
 .. toctree::

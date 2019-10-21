@@ -36,10 +36,10 @@ With the scope ``api``, so it can create the release for you.
 
   Options:
     --private-token TEXT    Private GITLAB token, used to authenticate when
-                            calling the MR API.  [required]
-    --project-url TEXT      The project URL on GitLab to create the MR for.
+                            calling the Release API.  [required]
+    --project-url TEXT      The project URL on GitLab to create the Release for.
                             [required]
-    --project-id INTEGER    The project ID on GitLab to create the MR for.
+    --project-id INTEGER    The project ID on GitLab to create the Release for.
                             [required]
     --tag-name TEXT         The tag the release should be created from.
                             [required]
@@ -47,7 +47,7 @@ With the scope ``api``, so it can create the release for you.
     -c, --changelog TEXT    Path to file to changelog file, will overwrite
                             description with tag matching changelog. Must be in
                             keepachangelog format.
-    -d, --description TEXT  Path to file to use as the description for the MR.
+    -d, --description TEXT  Path to file to use as the description for the Release.
     -a, --asset TEXT        An asset to include in the release, i.e.
                             name=link_to_asset.
     --artifacts TEXT        Will include artifacts from jobs specified in
@@ -86,4 +86,4 @@ Add the following to your ``.gitlab-ci.yml`` file:
 Changelog
 =========
 
-You can find the `changelog here <https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-mr/blob/master/CHANGELOG.md>`_.
+You can find the `changelog here <https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/blob/master/CHANGELOG.md>`_.

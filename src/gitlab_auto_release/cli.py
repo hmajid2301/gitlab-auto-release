@@ -27,17 +27,17 @@ import gitlab
     "--private-token",
     envvar="GITLAB_PRIVATE_TOKEN",
     required=True,
-    help="Private GITLAB token, used to authenticate when calling the MR API.",
+    help="Private GITLAB token, used to authenticate when calling the Release API.",
 )
 @click.option(
-    "--project-url", envvar="CI_PROJECT_URL", required=True, help="The project URL on GitLab to create the MR for."
+    "--project-url", envvar="CI_PROJECT_URL", required=True, help="The project URL on GitLab to create the Release for."
 )
 @click.option(
     "--project-id",
     envvar="CI_PROJECT_ID",
     required=True,
     type=int,
-    help="The project ID on GitLab to create the MR for.",
+    help="The project ID on GitLab to create the Release for.",
 )
 @click.option("--tag-name", envvar="CI_COMMIT_TAG", required=True, help="The tag the release should be created from.")
 @click.option("--release-name", envvar="CI_COMMIT_TAG", required=True, help="The name of the release.")
@@ -46,7 +46,7 @@ import gitlab
     "-c",
     help="Path to file to changelog file, will overwrite description with tag matching changelog. Must be in keepachangelog format.",
 )
-@click.option("--description", "-d", type=str, help="Path to file to use as the description for the MR.")
+@click.option("--description", "-d", type=str, help="Path to file to use as the description for the Release.")
 @click.option("--asset", "-a", multiple=True, help="An asset to include in the release, i.e. name=link_to_asset.")
 @click.option(
     "--artifacts", multiple=True, help="Will include artifacts from jobs specified in current pipeline. Use job name."
