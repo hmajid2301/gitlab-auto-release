@@ -29,9 +29,8 @@ import gitlab
     required=True,
     help="Private GITLAB token, used to authenticate when calling the Release API.",
 )
-@click.option(
-    "--project-url", envvar="CI_PROJECT_URL", required=True, help="The project URL on GitLab to create the Release for."
-)
+@click.option("--gitlab-url", envvar="CI_PROJECT_URL", required=True, help="The GitLab URL i.e. gitlab.com.")
+@click.option("--project-url", envvar="CI_PROJECT_URL", required=True, help="The project URL.")
 @click.option(
     "--project-id",
     envvar="CI_PROJECT_ID",
@@ -51,9 +50,13 @@ import gitlab
 @click.option(
     "--artifacts", multiple=True, help="Will include artifacts from jobs specified in current pipeline. Use job name."
 )
-def cli(private_token, project_id, project_url, tag_name, release_name, changelog, description, asset, artifacts):
+def cli(
+    private_token, project_id, gitlab_url, project_url, tag_name, release_name, changelog, description, asset, artifacts
+):
     """Gitlab Auto Release Tool."""
-    gitlab_url = re.search("^https?://[^/]+", project_url).group(0)
+    if gitlab_url == os.environ["CI_PROJECT_URL"]:
+        gitlab_url = re.search("^https?://[^/]+", gitlab_url).group(0)
+
     gl = gitlab.Gitlab(gitlab_url, private_token=private_token)
     try:
         project = gl.projects.get(project_id)

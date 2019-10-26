@@ -1,7 +1,6 @@
-# prompt_example> make test OPTIONS="-- -s"
-.PHONY: tests
-tests:
-	@tox -e test $(OPTIONS)
+.PHONY: virtualenv
+virtualenv:
+	@tox -e dev
 
 
 .PHONY: lint

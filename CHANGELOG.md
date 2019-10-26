@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2019-10-26
+### Changed
+- Updated README.rst, to include more useful information, about predefined variables.
+
+### Fixed
+- Tool only worked on GitLabs urls that were subdomains, now will work on any just specify gitlab-url, fixes #2.
+
+### Removed
+- Repeated sections from README.rst.
+
+
 ## [2.0.5] - 2019-10-21
 ### Changed
 - All references to MR (merge request) changed to release.
