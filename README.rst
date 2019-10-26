@@ -103,6 +103,17 @@ For more information `click here <https://docs.gitlab.com/ee/ci/variables/predef
 * If ``--tag-name`` is not set it will look for for the ENV variable ``CI_COMMIT_TAG``
 * If ``--release-name`` is not set it will look for for the ENV variable ``CI_COMMIT_TAG``
 
+Setup Development Environment
+=============================
+
+.. code-block:: bash
+
+  git clone git@gitlab.com:gitlab-automation-toolkit/gitlab-auto-release.git
+  cd gitlab-auto-release
+  pip install tox
+  make virtualenv
+  make install-dev
+
 Changelog
 =========
 

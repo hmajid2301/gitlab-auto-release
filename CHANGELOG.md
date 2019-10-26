@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Give docker image multiple tag in a single build comamnd.
+- Updated README.rst with a setup dev environment section.
 
 ## [3.0.0] - 2019-10-26
 ### Changed
