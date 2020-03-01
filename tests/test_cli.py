@@ -55,8 +55,6 @@ from gitlab_auto_release.cli import cli
                 213145,
                 "--gitlab-url",
                 "https://gitlab.com/hmajid2301/gitlab-auto-release",
-                "--tag-name",
-                "release/0.5.0",
             ],
             2,
         ),
