@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name="gitlab-auto-release",
-    version="4.0.0",
+    version="4.0.0.post1",
     description="Python script which is used to create releases on GitLab",
     long_description=open("README.rst").read(),
     long_description_content_type="text/x-rst",
