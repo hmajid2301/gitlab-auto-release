@@ -11,32 +11,32 @@ stages:
   - pre-publish
   - publish
 
-test:linter:
-  stage: test
-  script:
-    - pip install tox
-    - make lint
+# test:linter:
+#   stage: test
+#   script:
+#     - pip install tox
+#     - make lint
 
-test:code-formatter:
-  stage: test
-  script:
-    - pip install tox
-    - make code-formatter-check
+# test:code-formatter:
+#   stage: test
+#   script:
+#     - pip install tox
+#     - make code-formatter-check
 
-test:unit-tests:
-  stage: test
-  script:
-    - pip install tox
-    - make tests
+# test:unit-tests:
+#   stage: test
+#   script:
+#     - pip install tox
+#     - make tests
 
-test:coverage:
-  stage: test
-  only:
-    - master
-  script:
-    - pip install tox
-    - make coverage
-  coverage: '/^TOTAL.+?(\S+\%)$/'
+# test:coverage:
+#   stage: test
+#   only:
+#     - master
+#   script:
+#     - pip install tox
+#     - make coverage
+#   coverage: '/^TOTAL.+?(\S+\%)$/'
 
 publish-docker:
   stage: pre-publish
