@@ -51,8 +51,8 @@ publish-docker:
     - VERSION_TAG="abc"
     - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
     - docker pull ${CI_REGISTRY_IMAGE}:${VERSION_TAG} > /dev/null && echo "Tag ${VERSION_TAG} already exists" && export EXISTS=true || true
+    - echo $EXISTS
     - if [ -z $EXISTS ]; then echo "HELLO" && exit 1; fi
-    - [[ ! -z "$EXISTS" ]] && echo "Not empty" || echo "Empty"
     - docker build -t ${CI_REGISTRY_IMAGE}:latest -t ${CI_REGISTRY_IMAGE}:${VERSION_TAG}  .
     - docker push ${CI_REGISTRY_IMAGE}:latest
     - docker push ${CI_REGISTRY_IMAGE}:${VERSION_TAG}
