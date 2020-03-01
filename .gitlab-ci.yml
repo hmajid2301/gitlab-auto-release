@@ -11,48 +11,45 @@ stages:
   - pre-publish
   - publish
 
-# test:linter:
-#   stage: test
-#   script:
-#     - pip install tox
-#     - make lint
+test:linter:
+  stage: test
+  script:
+    - pip install tox
+    - make lint
 
-# test:code-formatter:
-#   stage: test
-#   script:
-#     - pip install tox
-#     - make code-formatter-check
+test:code-formatter:
+  stage: test
+  script:
+    - pip install tox
+    - make code-formatter-check
 
-# test:unit-tests:
-#   stage: test
-#   script:
-#     - pip install tox
-#     - make tests
+test:unit-tests:
+  stage: test
+  script:
+    - pip install tox
+    - make tests
 
-# test:coverage:
-#   stage: test
-#   only:
-#     - master
-#   script:
-#     - pip install tox
-#     - make coverage
-#   coverage: '/^TOTAL.+?(\S+\%)$/'
+test:coverage:
+  stage: test
+  only:
+    - master
+  script:
+    - pip install tox
+    - make coverage
+  coverage: '/^TOTAL.+?(\S+\%)$/'
 
 publish-docker:
   stage: pre-publish
   image: docker
-  # only:
-  #   - /^release/.*$/
+  only:
+    - /^release/.*$/
   before_script:
     - apk add python3-dev
     - python3 setup.py sdist
   script:
     - export VERSION_TAG=$(cat setup.py | grep version | head -1 | awk -F= '{ print $2 }' | sed 's/[",]//g' | tr -d "'")
-    - VERSION_TAG="abc"
     - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
     - docker pull ${CI_REGISTRY_IMAGE}:${VERSION_TAG} && echo "Tag ${VERSION_TAG} already exists" && exit 1 || true
-    # - echo $EXISTS
-    # - if [ -n $EXISTS ]; then exit 1;
     - docker build -t ${CI_REGISTRY_IMAGE}:latest -t ${CI_REGISTRY_IMAGE}:${VERSION_TAG}  .
     - docker push ${CI_REGISTRY_IMAGE}:latest
     - docker push ${CI_REGISTRY_IMAGE}:${VERSION_TAG}
