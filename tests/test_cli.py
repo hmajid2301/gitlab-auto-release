@@ -11,7 +11,6 @@ from gitlab_auto_release.cli import cli
     "args, exit_code",
     [
         ([], 2),
-        (["--private-token", "ATOKEN1234", "--project-id", 213145], 2),
         (
             [
                 "--private-token",
@@ -20,6 +19,7 @@ from gitlab_auto_release.cli import cli
                 213145,
                 "--gitlab-url",
                 "https://gitlab.com/hmajid2301/gitlab-auto-release",
+                "-c",
             ],
             2,
         ),
@@ -36,30 +36,7 @@ from gitlab_auto_release.cli import cli
             ],
             2,
         ),
-        (
-            [
-                "--private-token",
-                "ATOKEN1234",
-                "--gitlab-url",
-                "https://gitlab.com/hmajid2301/gitlab-auto-release",
-                "--tag-name",
-                "release/0.5.0",
-            ],
-            2,
-        ),
-        (
-            [
-                "--private-token",
-                "ATOKEN1234",
-                "--project-id",
-                213145,
-                "--gitlab-url",
-                "https://gitlab.com/hmajid2301/gitlab-auto-release",
-                "--tag-name",
-                "release/0.5.0",
-            ],
-            2,
-        ),
+        (["--project-id", 213145, "--gitlab-url", "https://gitlab.com/hmajid2301/gitlab-auto-release"], 2),
         (
             [
                 "--private-token",
