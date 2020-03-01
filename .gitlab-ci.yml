@@ -49,8 +49,8 @@ publish-docker:
   script:
     - export VERSION_TAG=$(cat setup.py | grep version | head -1 | awk -F= '{ print $2 }' | sed 's/[",]//g' | tr -d "'")
     - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
-    - docker pull ${CI_REGISTRY_IMAGE}:${VERSION_TAG} > /dev/null && echo "Tag ${VERSION_TAG} already exists"; exit 1 || true
-    - docker build -t ${CI_REGISTRY_IMAGE}:latest  -t ${CI_REGISTRY_IMAGE}:${VERSION_TAG}  .
+    - docker pull ${CI_REGISTRY_IMAGE}:${VERSION_TAG} && echo "Tag ${VERSION_TAG} already exists" && exit 1 || true
+    - docker build -t ${CI_REGISTRY_IMAGE}:latest -t ${CI_REGISTRY_IMAGE}:${VERSION_TAG}  .
     - docker push ${CI_REGISTRY_IMAGE}:latest
     - docker push ${CI_REGISTRY_IMAGE}:${VERSION_TAG}
 

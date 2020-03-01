@@ -62,10 +62,6 @@ install-dev:
 build-dist:
 	@python setup.py sdist
 
-.PHONY: check-manifest
-check-manifest:
-	@tox -e check-manifest
-
 .PHONY: pypi-check
 pypi-check:
 	make build-dist
