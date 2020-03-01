@@ -48,7 +48,7 @@ publish-docker:
     - python3 setup.py sdist
   script:
     - export VERSION_TAG=$(cat setup.py | grep version | head -1 | awk -F= '{ print $2 }' | sed 's/[",]//g' | tr -d "'")
-    - VERSION="ABC"
+    - VERSION="0.1.0"
     - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
     - (docker pull ${CI_REGISTRY_IMAGE}:${VERSION_TAG} > /dev/null && echo "Tag ${VERSION_TAG} already exists"; exit 1) || true
     - docker build -t ${CI_REGISTRY_IMAGE}:latest -t ${CI_REGISTRY_IMAGE}:${VERSION_TAG}  .
