@@ -20,6 +20,7 @@ import sys
 
 import click
 import gitlab
+import requests
 
 
 @click.command()
@@ -30,7 +31,6 @@ import gitlab
     help="Private GITLAB token, used to authenticate when calling the Release API.",
 )
 @click.option("--gitlab-url", envvar="CI_PROJECT_URL", required=True, help="The GitLab URL i.e. gitlab.com.")
-@click.option("--project-url", envvar="CI_PROJECT_URL", required=True, help="The project URL.")
 @click.option(
     "--project-id",
     envvar="CI_PROJECT_ID",
@@ -45,61 +45,63 @@ import gitlab
     "-c",
     help="Path to file to changelog file, will overwrite description with tag matching changelog. Must be in keepachangelog format.",
 )
-@click.option("--description", "-d", type=str, help="Path to file to use as the description for the Release.")
+@click.option("--description", "-d", default="", type=str, help="Path to file to use as the description for the MR.")
 @click.option("--asset", "-a", multiple=True, help="An asset to include in the release, i.e. name=link_to_asset.")
 @click.option(
     "--artifacts", multiple=True, help="Will include artifacts from jobs specified in current pipeline. Use job name."
 )
-def cli(
-    private_token, project_id, gitlab_url, project_url, tag_name, release_name, changelog, description, asset, artifacts
-):
+def cli(private_token, gitlab_url, project_id, tag_name, release_name, changelog, description, asset, artifacts):
     """Gitlab Auto Release Tool."""
-    if gitlab_url == os.environ["CI_PROJECT_URL"]:
-        gitlab_url = re.search("^https?://[^/]+", gitlab_url).group(0)
+    project_url = gitlab_url
+    if "CI_PROJECT_URL" in os.environ and gitlab_url == os.environ["CI_PROJECT_URL"]:
+        project_url = re.search("^https?://[^/]+", gitlab_url).group(0)
 
-    gl = gitlab.Gitlab(gitlab_url, private_token=private_token)
-    try:
-        project = gl.projects.get(project_id)
-    except gitlab.exceptions.GitlabGetError as e:
-        print(f"Unable to get project {project_id}. Error: {e}.")
-        sys.exit(1)
+    gl = gitlab.Gitlab(project_url, private_token=private_token)
+    project = get_gitlab_project(gl, project_id, gitlab_url)
 
-    exists = check_if_release_exists(project, tag_name)
-    if exists:
-        print(f"Release already exists for tag {tag_name}.")
-        sys.exit(0)
+    check_if_release_exists(project, tag_name)
+    assets = add_assets(asset)
 
-    try:
-        assets = add_assets(asset)
-    except IndexError:
-        print(f"Invalid input format asset {asset}. Format should be `name=link_to_asset.")
-        sys.exit(1)
-
-    try:
-        artifacts = add_artifacts(project, project_url, artifacts)
-        assets += artifacts
-    except IndexError:
-        print(f"One of the jobs specified is not found cannot link artifacts {artifacts}")
-        sys.exit(1)
+    if artifacts:
+        project_artifacts = try_to_add_artifacts(project, artifacts, gitlab_url)
+        assets += project_artifacts
 
     if changelog:
-        try:
-            description += f"\n\n {get_changelog(changelog, tag_name)}"
-        except (IndexError, AttributeError):
-            print(f"Invalid tag name doesn't contain a valid semantic version {tag_name}.")
-            sys.exit(1)
-        except FileNotFoundError:
-            print(f"Unable to find changelog file at {changelog}. No description will be set.")
-            sys.exit(1)
-        except OSError:
-            print(f"Unable to open changelog file at {changelog}. No description will be set.")
-            sys.exit(1)
+        changelog_data = try_to_get_changelog(changelog, tag_name)
+        description += changelog_data
 
     description = description if description else f"Release for {tag_name}"
     project.releases.create(
         {"name": release_name, "tag_name": tag_name, "description": description, "assets": {"links": assets}}
     )
     print(f"Created a release for tag {tag_name}.")
+
+
+def get_gitlab_project(gl, project_id, gitlab_url):
+    """Gets the gitlab project object.
+
+    Args:
+        project (Gitlab): The Gitlab object.
+        project_id (int): The id of the project to create the release for.
+        gitlab_url (str): The FQDN of the project.
+
+    Returns
+        Gitlab.project: The Gitlab project object.
+
+    """
+    try:
+        project = gl.projects.get(project_id)
+    except gitlab.exceptions.GitlabAuthenticationError:
+        print(f"Unable to get project {project_id}. Unauthorised access, check your access token is valid.")
+        sys.exit(1)
+    except gitlab.exceptions.GitlabGetError:
+        print(f"Unable to get project {project_id}.")
+        sys.exit(1)
+    except requests.exceptions.MissingSchema:
+        print(f"Incorrect --gitlab-url, missing schema i.e. https:// {gitlab_url}.")
+        sys.exit(1)
+
+    return project
 
 
 def check_if_release_exists(project, tag_name):
@@ -116,10 +118,12 @@ def check_if_release_exists(project, tag_name):
     exists = False
     try:
         gitlab_release = project.releases.get(tag_name)
-        if gitlab_release:
-            exists = True
     except gitlab.exceptions.GitlabGetError:
         pass
+
+    if gitlab_release:
+        print(f"Release already exists for tag {tag_name}.")
+        sys.exit(0)
 
     return exists
 
@@ -132,53 +136,106 @@ def add_assets(asset):
         asset (list): A list of tuples in the format name=link. These will be included in the release.
 
     Returns
-        list: (of dicts), which includes a name and url for the asset we will include in the realse.
-
-    Raises
-        IndexError: When format is incorrect
+        list: (of dicts), which includes a name and url for the asset we will include in the release.
 
     """
     assets = []
     for item in asset:
-        asset_hash = {"name": item.split("=")[0], "url": item.split("=")[1]}
+        try:
+            name, url = item.split("=")
+        except ValueError:
+            print(f"Invalid input format asset {asset}. Format should be `name=link_to_asset.")
+            sys.exit(1)
+
+        asset_hash = {"name": name, "url": url}
         assets.append(asset_hash)
 
     return assets
 
 
-def add_artifacts(project, project_url, artifacts):
+def try_to_add_artifacts(project, artifacts, gitlab_url):
+    """Try to get the artifacts from the job name specified.
+
+    Args:
+        project (Gitlab.project): Gitlab project object, to make API requests.
+        artifacts (list): A list Of jobs from current pipeline to link artifacts from.
+        gitlab_url (str): The url of the gitlab project.
+
+    Returns
+        list: (of dicts), which includes a name and url for the asset we will include in the release.
+
+    """
+    try:
+        artifacts = add_artifacts(project, artifacts, gitlab_url)
+    except gitlab.exceptions.GitlabGetError:
+        print(f"Invalid pipeline id {os.environ['CI_PIPELINE_ID']}.")
+        sys.exit(1)
+    except IndexError:
+        print(f"One of the jobs specified is not found cannot link artifacts {artifacts}.")
+        sys.exit(1)
+    except KeyError:
+        print(f"Missing `CI_PIPELINE_ID` ENV variable.")
+        sys.exit(1)
+
+    return artifacts
+
+
+def add_artifacts(project, artifacts, project_url):
     """Gets the artifacts from the job name specified. Gets the current pipeline id,
     then matches the jobs we are looking finds the job id.
 
     Args:
         project (Gitlab.project): Gitlab project object, to make API requests.
-        project_url (str): The url of the gitlab project.
         artifacts (list): A list Of jobs from current pipeline to link artifacts from.
+        project_url (str): The url of the gitlab project.
 
     Returns
         list: (of dicts), which includes a name and url for the asset we will include in the release.
 
     Raises
         IndexError: When the job doesn't exist in the pipeline jobs list.
+        KeyError: When `CI_PIPELINE_ID` ENV variable is not set.
 
     """
     assets = []
 
-    if artifacts:
-        pipeline_id = os.environ["CI_PIPELINE_ID"]
-        pipeline = project.pipelines.get(pipeline_id)
-        jobs = pipeline.jobs.list()
+    pipeline_id = os.environ["CI_PIPELINE_ID"]
+    pipeline = project.pipelines.get(pipeline_id)
+    jobs = pipeline.jobs.list()
 
-        for artifact in artifacts:
-            matched = [job for job in jobs if job.name == artifact][0]
-            job_id = matched.id
-            artifact_link = {
-                "name": f"Artifact: {artifact}",
-                "url": f"{project_url}/-/jobs/{job_id}/artifacts/download",
-            }
-            assets.append(artifact_link)
+    for artifact in artifacts:
+        matched = [job for job in jobs if job.name == artifact][0]
+        job_id = matched.id
+        artifact_link = {"name": f"Artifact: {artifact}", "url": f"{project_url}/-/jobs/{job_id}/artifacts/download"}
+        assets.append(artifact_link)
 
     return assets
+
+
+def try_to_get_changelog(changelog, tag_name):
+    """Try to get details from the changelog to include in the description of the release.
+
+    Args:
+        changelog (str): Path to changelog file.
+        tag_name (str): The tag name i.e. release/0.1.0, must contain semantic versioning somewhere in the tag (0.1.0).
+
+    Returns
+        str: The description to use for the release.
+
+    """
+    try:
+        description = f"\n\n {get_changelog(changelog, tag_name)}"
+    except (IndexError, AttributeError):
+        print(f"Invalid tag name doesn't contain a valid semantic version {tag_name}.")
+        sys.exit(1)
+    except FileNotFoundError:
+        print(f"Unable to find changelog file at {changelog}.")
+        sys.exit(1)
+    except OSError:
+        print(f"Unable to open changelog file at {changelog}.")
+        sys.exit(1)
+
+    return description
 
 
 def get_changelog(changelog, tag_name):
@@ -190,7 +247,7 @@ def get_changelog(changelog, tag_name):
         tag_name (str): The tag name i.e. release/0.1.0, must contain semantic versioning somewhere in the tag (0.1.0).
 
     Returns
-        str: The description to use for the release
+        str: The description to use for the release.
 
     Raises:
         AttributeError: If the tag_name doesn't contain semantic versioning somewhere within the name.

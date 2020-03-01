@@ -6,8 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-
-## [4.0.0] - 2020-03-01
 ### Added
 - unit tests with 100% code coverage.
 - `dev-requirements.txt` for development requirements such as black.
@@ -23,13 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `README.rst` added a coverage badge.
 - `code-formatter` name in `tox.ini` to.
 - `docker` publish job to pre-publish only on release tags.
-- Refactored main `cli` function into smaller functions.
 
 ### Fixed
 - Default `description` = `""` else the script crashes, #3.
-
-### Removed
-- `--project-url` argument, we can re use the `gitlab-url`.
 
 ## [3.0.0] - 2019-10-26
 ### Changed
@@ -120,8 +114,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create releases from within CI
 - Use a changelog to fill in the description of the release. 
 
-[Unreleased]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.0...master
-[4.0.0]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F3.0.0...release%2F4.0.0
+[Unreleased]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F3.0.0...master
 [3.0.0]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F2.0.5...release%2F3.0.0
 [2.0.5]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F2.0.4...release%2F2.0.5
 [2.0.4]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F2.0.3...release%2F2.0.4

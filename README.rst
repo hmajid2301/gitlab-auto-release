@@ -2,6 +2,10 @@
    :target: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release
    :alt: Pipeline Status
 
+.. image:: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/badges/master/coverage.svg
+   :target: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release
+   :alt: Coverage
+
 .. image:: https://img.shields.io/pypi/l/gitlab-auto-release.svg
    :target: https://pypi.org/project/gitlab-auto-release/
    :alt: PyPI Project License
@@ -9,10 +13,6 @@
 .. image:: https://img.shields.io/pypi/v/gitlab-auto-release.svg
    :target: https://pypi.org/project/gitlab-auto-release/
    :alt: PyPI Project Version
-
-.. image:: https://readthedocs.org/projects/gitlab-auto-release/badge/?version=latest
-   :target: https://gitlab-auto-release.readthedocs.io/en/latest/?badge=latest
-   :alt: Documentation Status
 
 GitLab Auto Release
 ===================
@@ -41,8 +41,6 @@ to the script with the ``--private-token`` argument.
     --private-token TEXT    Private GITLAB token, used to authenticate when
                             calling the Release API.  [required]
     --gitlab-url TEXT       The gitlab URL i.e. gitlab.com.
-                            [required]
-    --project-url TEXT      The project URL i.e. gitlab.com.
                             [required]
     --project-id INTEGER    The project ID on GitLab to create the Release for.
                             [required]
@@ -97,11 +95,8 @@ For more information `click here <https://docs.gitlab.com/ee/ci/variables/predef
 
 * If ``--private-token`` is not set the script will look for the ENV variable ``GITLAB_PRIVATE_TOKEN``
 * If ``--gitlab-url`` is not set it will look for for the ENV variable ``CI_PROJECT_URL``
-* If ``--project-url`` is not set it will look for for the ENV variable ``CI_PROJECT_URL``
 * If ``--project-id`` is not set it will look for for the ENV variable ``CI_PROJECT_ID``
-* If ``--user-id`` is not set it will look for for the ENV variable ``GITLAB_USER_ID``
 * If ``--tag-name`` is not set it will look for for the ENV variable ``CI_COMMIT_TAG``
-* If ``--release-name`` is not set it will look for for the ENV variable ``CI_COMMIT_TAG``
 
 Setup Development Environment
 =============================
@@ -111,7 +106,8 @@ Setup Development Environment
   git clone git@gitlab.com:gitlab-automation-toolkit/gitlab-auto-release.git
   cd gitlab-auto-release
   pip install tox
-  make virtualenv
+  make install-venv
+  source .venv/bin/activate
   make install-dev
 
 Changelog

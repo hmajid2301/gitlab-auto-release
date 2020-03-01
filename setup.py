@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name="gitlab-auto-release",
-    version="3.0.0",
+    version="4.0.0",
     description="Python script which is used to create releases on GitLab",
     long_description=open("README.rst").read(),
     long_description_content_type="text/x-rst",
@@ -12,7 +12,7 @@ setup(
     keywords="",
     license="Apache License",
     url="https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release",
-    python_requires="~=3.7",
+    python_requires="~=3.6",
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     zip_safe=False,
