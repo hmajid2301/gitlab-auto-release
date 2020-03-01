@@ -41,16 +41,17 @@ test:coverage:
 publish-docker:
   stage: pre-publish
   image: docker
-  only:
-    - /^release/.*$/
+  # only:
+  #   - /^release/.*$/
   before_script:
     - apk add python3-dev
     - python3 setup.py sdist
   script:
     - export VERSION_TAG=$(cat setup.py | grep version | head -1 | awk -F= '{ print $2 }' | sed 's/[",]//g' | tr -d "'")
+    - VERSION="ABC"
     - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
-    - docker pull ${CI_REGISTRY_IMAGE}:${VERSION_TAG} > /dev/null && echo "Tag ${VERSION_TAG} already exists"; exit 1 || true
-    - docker build -t ${CI_REGISTRY_IMAGE}:latest  -t ${CI_REGISTRY_IMAGE}:${VERSION_TAG}  .
+    - docker pull ${CI_REGISTRY_IMAGE}:${VERSION_TAG} > /dev/null && echo "Tag ${VERSION_TAG} already exists"; exit 1 || exit 0; true
+    - docker build -t ${CI_REGISTRY_IMAGE}:latest -t ${CI_REGISTRY_IMAGE}:${VERSION_TAG}  .
     - docker push ${CI_REGISTRY_IMAGE}:latest
     - docker push ${CI_REGISTRY_IMAGE}:${VERSION_TAG}
 
