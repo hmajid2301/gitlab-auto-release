@@ -52,7 +52,7 @@ publish-docker:
     - docker login ${CI_REGISTRY} -u gitlab-ci-token -p ${CI_BUILD_TOKEN}
     - docker pull ${CI_REGISTRY_IMAGE}:${VERSION_TAG} > /dev/null && echo "Tag ${VERSION_TAG} already exists" && export EXISTS=true || true
     - echo $EXISTS
-    - if [ -z $EXISTS ]; then echo "var is unset"; else echo "var is set to '$var'"; fi
+    - if [ -n $EXISTS ]; then echo "var is unset"; else exit 1; fi
     - docker build -t ${CI_REGISTRY_IMAGE}:latest -t ${CI_REGISTRY_IMAGE}:${VERSION_TAG}  .
     - docker push ${CI_REGISTRY_IMAGE}:latest
     - docker push ${CI_REGISTRY_IMAGE}:${VERSION_TAG}
