@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.1] - 2020-03-05
+### Fixed
+- `gitlab_release` referenced before it was assigned.
+
 ## [4.0.0] - 2020-03-01
 ### Added
 - unit tests with 100% code coverage.
