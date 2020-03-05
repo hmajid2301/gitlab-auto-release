@@ -118,10 +118,12 @@ def check_if_release_exists(project, tag_name):
     exists = False
     try:
         gitlab_release = project.releases.get(tag_name)
+        if gitlab_release:
+            exists = True
     except gitlab.exceptions.GitlabGetError:
         pass
 
-    if gitlab_release:
+    if exists:
         print(f"Release already exists for tag {tag_name}.")
         sys.exit(0)
 
