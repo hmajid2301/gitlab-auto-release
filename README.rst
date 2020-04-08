@@ -60,7 +60,7 @@ to the script with the ``--private-token`` argument.
 .. code-block:: bash
 
   gitlab_auto_release --private-token $(private_otken) --project-id 8593636 \
-    --project-url https://gitlab.com/stegappasaurus/stegappasaurus-app \
+    --gitlab-url https://gitlab.com/stegappasaurus/stegappasaurus-app \
     --tag-name v0.1.0 --release-name v0.1.0 --changelog CHANGELOG.md
 
 GitLab CI

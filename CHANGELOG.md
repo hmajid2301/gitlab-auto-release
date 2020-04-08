@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.2] - 2020-04-08
+### Fixed
+- Typo in `README.rst`, `project-url` -> `gitlab-url`, #1.
+
 ## [4.0.1] - 2020-03-05
 ### Fixed
 - `gitlab_release` referenced before it was assigned.
@@ -124,7 +128,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create releases from within CI
 - Use a changelog to fill in the description of the release. 
 
-[Unreleased]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.0...master
+[Unreleased]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.2...master
+[4.0.2]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.2...release%2F4.0.1
+[4.0.1]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.1...release%2F4.0.0
 [4.0.0]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F3.0.0...release%2F4.0.0
 [3.0.0]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F2.0.5...release%2F3.0.0
 [2.0.5]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F2.0.4...release%2F2.0.5
