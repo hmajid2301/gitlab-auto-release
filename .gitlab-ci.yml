@@ -17,7 +17,7 @@ test:linter:
     - pip install tox
     - make lint
 
-test:code-formatter:
+test:format:
   stage: test
   script:
     - pip install tox
@@ -25,6 +25,8 @@ test:code-formatter:
 
 test:unit-tests:
   stage: test
+  except:
+    - tags
   script:
     - pip install tox
     - make tests
@@ -38,13 +40,21 @@ test:coverage:
     - make coverage
   coverage: '/^TOTAL.+?(\S+\%)$/'
 
+test:integration-tests:
+  stage: test
+  only:
+    - tags
+  script:
+    - pip install tox
+    - make integration_tests
+
 publish-docker:
   stage: pre-publish
   image: docker
   only:
     - /^release/.*$/
   before_script:
-    - apk add python3-dev
+    - apk add python3-dev py-pip
     - python3 setup.py sdist
   script:
     - export VERSION_TAG=$(cat setup.py | grep version | head -1 | awk -F= '{ print $2 }' | sed 's/[",]//g' | tr -d "'")

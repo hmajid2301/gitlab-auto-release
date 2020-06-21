@@ -5,6 +5,10 @@ PY=py37
 tests:
 	@tox -e $(PY) $(OPTIONS)
 
+.PHONY: integration_tests
+integration_tests:
+	@tox -e integration $(OPTIONS)
+
 .PHONY: coverage
 coverage:
 	@tox -e coverage

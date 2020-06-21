@@ -1,3 +1,5 @@
+__VERSION__ = "4.0.3"
+
 # -*- coding: utf-8 -*-
 r"""This module is used to use the GitLab API to automatically create a release for a specific project at a specific tag. You can include artifacts
 with your release. You can also include descriptions from your changelog.
@@ -43,9 +45,9 @@ import requests
 @click.option(
     "--changelog",
     "-c",
-    help="Path to file to changelog file, will overwrite description with tag matching changelog. Must be in keepachangelog format.",
+    help="Path to file to changelog file, will append itself to the description with tag matching changelog. Must be in keepachangelog format.",
 )
-@click.option("--description", "-d", default="", type=str, help="Path to file to use as the description for the MR.")
+@click.option("--description", "-d", default="", type=str, help="String to use as the description for the release.")
 @click.option("--asset", "-a", multiple=True, help="An asset to include in the release, i.e. name=link_to_asset.")
 @click.option(
     "--artifacts", multiple=True, help="Will include artifacts from jobs specified in current pipeline. Use job name."
@@ -176,7 +178,7 @@ def try_to_add_artifacts(project, artifacts, gitlab_url):
         print(f"One of the jobs specified is not found cannot link artifacts {artifacts}.")
         sys.exit(1)
     except KeyError:
-        print(f"Missing `CI_PIPELINE_ID` ENV variable.")
+        print("Missing `CI_PIPELINE_ID` ENV variable.")
         sys.exit(1)
 
     return artifacts

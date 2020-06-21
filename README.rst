@@ -47,7 +47,7 @@ to the script with the ``--private-token`` argument.
     --tag-name TEXT         The tag the release should be created from.
                             [required]
     --release-name TEXT     The name of the release.  [required]
-    -c, --changelog TEXT    Path to file to changelog file, will overwrite
+    -c, --changelog TEXT    Path to file to changelog file, will append itself to the
                             description with tag matching changelog. Must be in
                             keepachangelog format.
     -d, --description TEXT  Path to file to use as the description for the Release.

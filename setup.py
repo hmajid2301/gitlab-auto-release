@@ -3,13 +3,13 @@ from setuptools import setup
 
 setup(
     name="gitlab-auto-release",
-    version="4.0.2",
+    version="4.0.3",
     description="Python script which is used to create releases on GitLab",
     long_description=open("README.rst").read(),
     long_description_content_type="text/x-rst",
     author="Haseeb Majid",
     author_email="me@haseebmajid.dev",
-    keywords="",
+    keywords="script,gitlab,github,mirror,automation",
     license="Apache License",
     url="https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release",
     python_requires="~=3.6",
