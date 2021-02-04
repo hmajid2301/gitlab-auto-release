@@ -387,7 +387,7 @@ def test_envvars(mocker, runner):
     ]
     os.environ["GITLAB_PRIVATE_TOKEN"] = "NOTATOKEN"
     os.environ["CI_PROJECT_ID"] = "81236"
-    os.environ["CI_PROJECT_URL"] = "https://gitlab.com/hmajid2301/gitlab-auto-mr"
+    os.environ["CI_SERVER_URL"] = "https://gitlab.com/"
     os.environ["CI_COMMIT_TAG"] = "release/0.5.0"
     os.environ["CI_PIPELINE_ID"] = "79790"
 
