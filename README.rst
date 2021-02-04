@@ -94,7 +94,7 @@ Please note some of the arguments can be filled in using environment variables d
 For more information `click here <https://docs.gitlab.com/ee/ci/variables/predefined_variables.html>_`.
 
 * If ``--private-token`` is not set the script will look for the ENV variable ``GITLAB_PRIVATE_TOKEN``
-* If ``--gitlab-url`` is not set it will look for for the ENV variable ``CI_PROJECT_URL``
+* If ``--gitlab-url`` is not set it will look for for the ENV variable ``CI_SERVER_URL``
 * If ``--project-id`` is not set it will look for for the ENV variable ``CI_PROJECT_ID``
 * If ``--tag-name`` is not set it will look for for the ENV variable ``CI_COMMIT_TAG``
 
