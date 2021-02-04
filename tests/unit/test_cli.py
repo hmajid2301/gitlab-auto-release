@@ -11,31 +11,8 @@ from gitlab_auto_release.cli import cli
     "args, exit_code",
     [
         ([], 2),
-        (
-            [
-                "--private-token",
-                "ATOKEN1234",
-                "--project-id",
-                213145,
-                "--gitlab-url",
-                "https://gitlab.com/hmajid2301/gitlab-auto-release",
-                "-c",
-            ],
-            2,
-        ),
-        (
-            [
-                "--project-id",
-                213145,
-                "--gitlab-url",
-                "https://gitlab.com/hmajid2301/gitlab-auto-release",
-                "--tag-name",
-                "release/0.5.0",
-                "--release-name",
-                "release/0.5.0",
-            ],
-            2,
-        ),
+        (["--private-token", "ATOKEN1234", "--project-id", 213145, "--gitlab-url", "https://gitlab.com/", "-c"], 2),
+        (["--project-id", 213145, "--tag-name", "release/0.5.0", "--release-name", "release/0.5.0"], 2),
         (["--project-id", 213145, "--gitlab-url", "https://gitlab.com/hmajid2301/gitlab-auto-release"], 2),
         (
             [
@@ -43,8 +20,6 @@ from gitlab_auto_release.cli import cli
                 "ATOKEN1234",
                 "--project-id",
                 213145,
-                "--gitlab-url",
-                "gitlab.com/hmajid2301/gitlab-auto-release",
                 "--tag-name",
                 "release/0.5.0",
                 "--release-name",
@@ -387,7 +362,7 @@ def test_envvars(mocker, runner):
     ]
     os.environ["GITLAB_PRIVATE_TOKEN"] = "NOTATOKEN"
     os.environ["CI_PROJECT_ID"] = "81236"
-    os.environ["CI_PROJECT_URL"] = "https://gitlab.com/hmajid2301/gitlab-auto-mr"
+    os.environ["CI_SERVER_URL"] = "https://gitlab.com/"
     os.environ["CI_COMMIT_TAG"] = "release/0.5.0"
     os.environ["CI_PIPELINE_ID"] = "79790"
 

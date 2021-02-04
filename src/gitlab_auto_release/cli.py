@@ -1,4 +1,4 @@
-__VERSION__ = "4.0.3"
+__VERSION__ = "4.0.4"
 
 # -*- coding: utf-8 -*-
 r"""This module is used to use the GitLab API to automatically create a release for a specific project at a specific tag. You can include artifacts
@@ -32,7 +32,7 @@ import requests
     required=True,
     help="Private GITLAB token, used to authenticate when calling the Release API.",
 )
-@click.option("--gitlab-url", envvar="CI_PROJECT_URL", required=True, help="The GitLab URL i.e. gitlab.com.")
+@click.option("--gitlab-url", envvar="CI_SERVER_URL", required=True, help="The GitLab URL i.e. gitlab.com.")
 @click.option(
     "--project-id",
     envvar="CI_PROJECT_ID",
@@ -54,11 +54,7 @@ import requests
 )
 def cli(private_token, gitlab_url, project_id, tag_name, release_name, changelog, description, asset, artifacts):
     """Gitlab Auto Release Tool."""
-    project_url = gitlab_url
-    if "CI_PROJECT_URL" in os.environ and gitlab_url == os.environ["CI_PROJECT_URL"]:
-        project_url = re.search("^https?://[^/]+", gitlab_url).group(0)
-
-    gl = gitlab.Gitlab(project_url, private_token=private_token)
+    gl = gitlab.Gitlab(gitlab_url, private_token=private_token)
     project = get_gitlab_project(gl, project_id, gitlab_url)
 
     check_if_release_exists(project, tag_name)
