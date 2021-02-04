@@ -45,6 +45,7 @@ test:integration-tests:
   # only:
   #   - tags
   script:
+    - echo $CI_SERVER_URL
     - pip install tox
     - make integration_tests
 
