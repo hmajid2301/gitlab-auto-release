@@ -50,7 +50,7 @@ from gitlab_auto_release.cli import cli
                 "--release-name",
                 "release/0.5.0",
             ],
-            1,
+            2,
         ),
     ],
 )
