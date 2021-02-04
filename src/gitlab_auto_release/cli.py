@@ -32,7 +32,7 @@ import requests
     required=True,
     help="Private GITLAB token, used to authenticate when calling the Release API.",
 )
-@click.option("--gitlab-url", envvar="CI_PROJECT_URL", required=True, help="The GitLab URL i.e. gitlab.com.")
+@click.option("--gitlab-url", envvar="CI_SERVER_URL", required=True, help="The GitLab URL i.e. gitlab.com.")
 @click.option(
     "--project-id",
     envvar="CI_PROJECT_ID",
@@ -55,7 +55,7 @@ import requests
 def cli(private_token, gitlab_url, project_id, tag_name, release_name, changelog, description, asset, artifacts):
     """Gitlab Auto Release Tool."""
     project_url = gitlab_url
-    if "CI_PROJECT_URL" in os.environ and gitlab_url == os.environ["CI_PROJECT_URL"]:
+    if "CI_SERVER_URL" in os.environ and gitlab_url == os.environ["CI_SERVER_URL"]:
         project_url = re.search("^https?://[^/]+", gitlab_url).group(0)
 
     gl = gitlab.Gitlab(project_url, private_token=private_token)
