@@ -1,4 +1,4 @@
-__VERSION__ = "4.0.3"
+__VERSION__ = "4.0.4"
 
 # -*- coding: utf-8 -*-
 r"""This module is used to use the GitLab API to automatically create a release for a specific project at a specific tag. You can include artifacts

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [4.0.4] - 2021-02-04
+### Changed
+- The variable that `gitlab_url` uses. It now uses `CI_SERVER_URL` because we only care about the FQDN (/port), to connect to the instance. So we can interact with the API.
+
 ## [4.0.3] - 2020-06-24
 ### Added
 - Integration tests, which actually test if an Release was created on Gitlab.
@@ -133,7 +137,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create releases from within CI
 - Use a changelog to fill in the description of the release. 
 
-[Unreleased]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.3...master
+[Unreleased]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.4...master
+[4.0.4]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.4...release%2F4.0.3
 [4.0.3]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.3...release%2F4.0.2
 [4.0.2]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.2...release%2F4.0.1
 [4.0.1]: https://gitlab.com/gitlab-automation-toolkit/gitlab-auto-release/-/compare/release%2F4.0.1...release%2F4.0.0
