@@ -54,13 +54,7 @@ import requests
 )
 def cli(private_token, gitlab_url, project_id, tag_name, release_name, changelog, description, asset, artifacts):
     """Gitlab Auto Release Tool."""
-    project_url = gitlab_url
-    click.echo("GITLAB")
-    click.echo(gitlab_url)
-    if "CI_SERVER_URL" in os.environ and gitlab_url == os.environ["CI_SERVER_URL"]:
-        project_url = re.search("^https?://[^/]+", gitlab_url).group(0)
-
-    gl = gitlab.Gitlab(project_url, private_token=private_token)
+    gl = gitlab.Gitlab(gitlab_url, private_token=private_token)
     project = get_gitlab_project(gl, project_id, gitlab_url)
 
     check_if_release_exists(project, tag_name)
