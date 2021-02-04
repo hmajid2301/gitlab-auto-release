@@ -42,8 +42,8 @@ test:coverage:
 
 test:integration-tests:
   stage: test
-  only:
-    - tags
+  # only:
+  #   - tags
   script:
     - pip install tox
     - make integration_tests
