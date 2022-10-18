@@ -40,17 +40,16 @@ to the script with the ``--private-token`` argument.
   Options:
     --private-token TEXT    Private GITLAB token, used to authenticate when
                             calling the Release API.  [required]
-    --gitlab-url TEXT       The gitlab URL i.e. gitlab.com.
-                            [required]
+    --gitlab-url TEXT       The GitLab URL i.e. gitlab.com.  [required]
     --project-id INTEGER    The project ID on GitLab to create the Release for.
                             [required]
     --tag-name TEXT         The tag the release should be created from.
                             [required]
     --release-name TEXT     The name of the release.  [required]
-    -c, --changelog TEXT    Path to file to changelog file, will append itself to the
-                            description with tag matching changelog. Must be in
-                            keepachangelog format.
-    -d, --description TEXT  Path to file to use as the description for the Release.
+    -c, --changelog TEXT    Path to file to changelog file, will append itself
+                            to the description with tag matching changelog. Must
+                            be in keepachangelog format.
+    -d, --description TEXT  String to use as the description for the release.
     -a, --asset TEXT        An asset to include in the release, i.e.
                             name=link_to_asset.
     --artifacts TEXT        Will include artifacts from jobs specified in
